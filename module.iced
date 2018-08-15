@@ -1,10 +1,7 @@
 # vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2
 log = (x...) -> try console.log x...
 
-_ = require('wegweg')({
-  globals: no
-  shelljs: no
-})
+_ = require 'lodash'
 
 adjectives = """
   Graceful
@@ -296,12 +293,12 @@ animals = """
 """
 
 adjectives = adjectives.split '\n'
-adjectives = _.ucmap adjectives, (item) ->
+adjectives = _.uniq _.compact _.map adjectives, (item) ->
   if item.trim() is '' then return null
   item.trim().toLowerCase()
 
 animals = animals.split '\n'
-animals = _.ucmap animals, (item) ->
+animals = _.uniq _.compact _.map animals, (item) ->
   if item.trim() is '' then return null
   item.trim().toLowerCase()
 
@@ -316,7 +313,7 @@ module.exports = versions = {
     while !potential.length
       animal = _.first(_.shuffle(animals))
       first = animal.substr(0,1)
-      potential = _.cmap adjectives, (item) ->
+      potential = _.compact _.map adjectives, (item) ->
         return null if item.substr(0,1) isnt first
         item
 

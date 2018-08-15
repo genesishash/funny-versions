@@ -11,10 +11,7 @@
     } catch (_error) {}
   };
 
-  _ = require('wegweg')({
-    globals: false,
-    shelljs: false
-  });
+  _ = require('lodash');
 
   adjectives = "Graceful\nShady\nSneaky\nClumsy\nAwkward\nNimble\nClever\nDull\nObtuse\nMeek\nAnemic\nFrightened\nTimid\nVigilant\nCautious\nCapable\nAdequate\nAbsent-minded\nAdventurous\nDaring\nIndifferent\nApologetic\nHideous\nHorrid\nDreadful\nGhastly\nRevolting\nNasty\nCruel\nCheeky\nObnoxious\nDisrespectful\nContrary\nOrnery\nSubtle\nOptimistic\nCourageous\nCowardly\nGullible\nArrogant\nHaughty\nNaïve\nCurious\nStubborn\nBrazen\nModest\nHumble\nProud\nDishonest\nRighteous\nGreedy\nWise\nTricky\nLoyal\nRelaxed\nTranquil\nLazy\nRambunctious\nErratic\nFidgety\nLively\nStill\nFamished\nSurprised\nStartled\nSullen\nTerrified\nFurious\nAnnoyed\nSullen\nGroggy\nAlert\nTense\nCranky\nGloomy\nIrritable\nLonely\nExhausted\nEcstatic\nCheerful\nDelighted\nBlithe\nContent\nCarefree\nDemanding\nChallenging\nEffortless\nSimple\nFantastic\nMarvelous\nSplendid\nBrilliant\nSuperb\nStriking\nStunning\nGorgeous\nPicturesque\nLovely\nCharming\nEnchanting\nDelicate\nPleasant\nMonstrous\nImmense\nEnormous\nMassive\nBrawny\nBulky\nTowering\nRotund\nCavernous\nPuny\nMinute\nDiminutive\nMicroscopic\nPetite\nSlight\nBitter\nFrosty\nSweltering\nScorching\nBlistering\nMuggy\nStifling\nOppressive\nCozy\nEternal\nCeaseless\nPerpetual\nEndless\nTemporary\nIntimidating\nMenacing\nMiserable\nDangerous\nDelinquent\nVile\nQuarrelsome\nHostile\nMalicious\nSavage\nStern\nSomber\nMysterious\nShocking\nInfamous\nIngenious\nThrifty\nGenerous\nPrudent\nStingy\nSpoiled\nAnxious\nNervous\nImpatient\nWorried\nExcited\nCourteous\nCompassionate\nBenevolent\nPolite\nAmusing\nEntertaining\nCreative\nPrecise\nEccentric\nDecrepit\nAncient\nRotten\nWhimsical\nDense\nDesolate\nDisgusting\nDismal\nOpulent\nIdyllic\nLavish\nEdgy\nTrendy\nPeculiar\nRancid\nFetid\nFoul\nFilthy\nRepulsive\nLousy\nFluttering\nSoaring\nSparkling\nGilded\nVerdant\nGlowing\nAskew\nDowdy\nGaunt\nSloppy\nSerious\nGrave\nIntense\nSevere\nHeavy\nSolemn\nAbsurd\nRidiculous\nSluggish\nDawdling\nMeandering\nScarce\nCopious\nMuffled\nLulling\nCreaky\nShrill\nPiercing\nSlimy\nGrimy\nGauzy\nMangy\nSwollen\nParched\nCrispy\nSpiky\nSlick\nFuzzy\nLumpy\nPlush\nWrinkly\nSlick\nGlassy\nSnug\nStiff";
 
@@ -22,21 +19,21 @@
 
   adjectives = adjectives.split('\n');
 
-  adjectives = _.ucmap(adjectives, function(item) {
+  adjectives = _.uniq(_.compact(_.map(adjectives, function(item) {
     if (item.trim() === '') {
       return null;
     }
     return item.trim().toLowerCase();
-  });
+  })));
 
   animals = animals.split('\n');
 
-  animals = _.ucmap(animals, function(item) {
+  animals = _.uniq(_.compact(_.map(animals, function(item) {
     if (item.trim() === '') {
       return null;
     }
     return item.trim().toLowerCase();
-  });
+  })));
 
   module.exports = versions = {
     generate: (function(alliteration) {
@@ -51,12 +48,12 @@
       while (!potential.length) {
         animal = _.first(_.shuffle(animals));
         first = animal.substr(0, 1);
-        potential = _.cmap(adjectives, function(item) {
+        potential = _.compact(_.map(adjectives, function(item) {
           if (item.substr(0, 1) !== first) {
             return null;
           }
           return item;
-        });
+        }));
       }
       return _.first(_.shuffle(potential)) + ' ' + animal;
     })

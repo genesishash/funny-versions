@@ -9,6 +9,6 @@
     "taky"
   ],
   "dependencies": {
-    "wegweg": "^0.9.0"
+    "lodash": "^4.17.10"
   }
 }
